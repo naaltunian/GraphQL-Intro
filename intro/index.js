@@ -1,39 +1,43 @@
 const { ApolloServer } = require('apollo-server');
 
 let _id = 0;
-const photos = [];
+const people = [];
 
 const typeDefs = `
     type Query {
-        totalPhotos: Int!
-        allPhotos: [Photo!]!
+        totalPeople: Int!
+        allPeople: [Person!]!
     }
 
     type Mutation {
-        postPhoto(name: String! description: String): Photo!
+        addPerson(name: String! description: String, age: Int, email: String): Person!
     }
 
-    type Photo {
+    type Person {
         id: ID!
-        url: String!
         name: String!
         description: String
+        age: Int
+        email: String
     }
 `
 const resolvers = {
     Query: {
-        totalPhotos: () => photos.length,
-        allPhotos: () => photos
+        totalPeople: () => people.length,
+        allPeople: () => people
     },
 
     Mutation: {
-        postPhoto(parent, args) {
-            const newPhoto = {
+        addPerson(parent, { name, description, age, email }) {
+            const newPerson = {
                 id: _id++,
-                ...args
+                name,
+                description,
+                age,
+                email
             }
-            photos.push(newPhoto);
-            return newPhoto;
+            people.push(newPerson);
+            return newPerson;
         }
     }
 }
