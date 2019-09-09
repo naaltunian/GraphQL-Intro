@@ -10,7 +10,7 @@ const typeDefs = `
     }
 
     type Mutation {
-        addPerson(name: String! description: String, age: Int, email: String): Person!
+        addPerson(input: AddPersonInput!): Person!
     }
 
     type Person {
@@ -19,8 +19,31 @@ const typeDefs = `
         description: String
         age: Int
         email: String
+        occupation: String
+        occupationField: OccupationField
+    }
+
+    input AddPersonInput {
+        name: String!
+        description: String
+        age: Int
+        email: String
+        occupation: String
+        occupationField: OccupationField=OTHER
+
+    }
+
+    enum OccupationField {
+        TECHNOLOGY
+        EDUCATION
+        FINANCE
+        CONSTRUCTION
+        DESIGN
+        OTHER
+        UNKNOWN
     }
 `
+
 const resolvers = {
     Query: {
         totalPeople: () => people.length,
@@ -28,13 +51,15 @@ const resolvers = {
     },
 
     Mutation: {
-        addPerson(parent, { name, description, age, email }) {
+        addPerson(parent, { input }) {
             const newPerson = {
                 id: _id++,
-                name,
-                description,
-                age,
-                email
+                name: input.name,
+                description: input.description,
+                age: input.age,
+                email: input.email,
+                occupation: input.occupation,
+                occupationField: input.occupationField
             }
             people.push(newPerson);
             return newPerson;
