@@ -54,12 +54,7 @@ const resolvers = {
         addPerson(parent, { input }) {
             const newPerson = {
                 id: _id++,
-                name: input.name,
-                description: input.description,
-                age: input.age,
-                email: input.email,
-                occupation: input.occupation,
-                occupationField: input.occupationField
+                ...input
             }
             people.push(newPerson);
             return newPerson;
