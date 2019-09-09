@@ -29,8 +29,7 @@ const typeDefs = `
         age: Int
         email: String
         occupation: String
-        occupationField: OccupationField=OTHER
-
+        occupationField: OccupationField=UNKNOWN
     }
 
     enum OccupationField {
