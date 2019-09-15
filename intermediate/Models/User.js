@@ -5,10 +5,17 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    email: String,
-    favoriteMovies: {
+    email: {
+        type: String,
+        required: true
+    },
+    age: {
+        type: Number,
+        required: true
+    },
+    favoriteBooks: {
         type: [mongoose.Schema.Types.ObjectId],
-        ref: 'Movie'
+        ref: 'Book'
     }
 });
 
