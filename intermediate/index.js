@@ -2,7 +2,7 @@ const express = require('express');
 // const { ApolloServer } = require('apollo-server-express');
 // const { typeDefs } = require('./schema');
 // const { resolvers } = require('./resolvers');
-// const mongoose = require('mongoose');
+const mongoose = require('mongoose');
 require('dotenv').config();
 
 const app = express();
