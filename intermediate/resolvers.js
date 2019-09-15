@@ -12,15 +12,20 @@ exports.resolvers = {
     },
 
     Mutation: {
-        addBook: async (_, { book }, { Book }) => {
+        addBook: async (_, { book: { name, author, description, category, pageCount } }, { Book }) => {
             const newBook = await new Book({
-                name: book.name,
-                author: book.author,
-                description: book.description,
-                category: book.category,
-                pageCount: book.pageCount
+                name,
+                author,
+                description,
+                category,
+                pageCount
             }).save();
             return newBook;
+        },
+
+        deleteBook: async (_, { _id }, { Book }) => {
+            const deletedBook = await Book.deleteOne({ _id });
+            return deletedBook;
         }
     }
 }

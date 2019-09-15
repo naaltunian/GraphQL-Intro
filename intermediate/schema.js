@@ -2,6 +2,16 @@ const { gql } = require('apollo-server-express');
 
 exports.typeDefs = gql`
 
+# types
+type Query {
+    getBook(_id: ID!): Book
+    getAllBooks: [Book]
+}
+
+type Mutation {
+    addBook(book: AddBookInput!): Book
+    deleteBook(_id: ID!): Book
+}
 type User {
     _id: ID
     name: String!
@@ -20,22 +30,24 @@ type Book {
     dateAddedToLibrary: String
 }
 
+# inputs
 input AddBookInput {
     name: String!
     author: String!
     description: String
-    category: String!
+    category: CategoryEnum=UNKNOWN
     pageCount: Int
 }
 
-type Query {
-    getBook(_id: ID!): Book
-    getAllBooks: [Book]
-}
-
-type Mutation {
-    addBook(book: AddBookInput!): Book
-    deleteBook(_id: ID!): Book
+# enums
+enum CategoryEnum {
+    ADVENTURE
+    SCIFI
+    FANTASY
+    ROMANCE
+    GOTHIC
+    TRAVEL
+    UNKNOWN
 }
 
 `
