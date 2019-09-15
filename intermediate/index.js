@@ -1,8 +1,8 @@
 const express = require('express');
-// const { ApolloServer } = require('apollo-server-express');
-// const { typeDefs } = require('./schema');
-// const { resolvers } = require('./resolvers');
-// const mongoose = require('mongoose');
+const { ApolloServer } = require('apollo-server-express');
+const { typeDefs } = require('./schema');
+const { resolvers } = require('./resolvers');
+const mongoose = require('mongoose');
 require('dotenv').config();
 
 const app = express();
@@ -18,16 +18,19 @@ mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true })
     .catch(err => console.error());
 
 // graphQL server
-// const server = new ApolloServer({
-//     typeDefs,
-//     resolvers
+const server = new ApolloServer({
+    typeDefs,
+    resolvers,
+    context: {
+        User,
+        Book
+    }
     
-// });
+});
 // graphQL middleware
-// server.applyMiddleware({ app });
+server.applyMiddleware({ app });
 
 const PORT = process.env.PORT || 4000;
 
 // start the express server
-// add ${server.graphqlPath} after PORT
-app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
+app.listen(PORT, () => console.log(`Listening on port ${PORT}${server.graphqlPath}`));

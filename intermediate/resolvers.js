@@ -14,11 +14,11 @@ exports.resolvers = {
     Mutation: {
         addBook: async (_, { book }, { Book }) => {
             const newBook = await new Book({
-                name,
-                author,
-                description,
-                category,
-                pageCount
+                name: book.name,
+                author: book.author,
+                description: book.description,
+                category: book.category,
+                pageCount: book.pageCount
             }).save();
             return newBook;
         }
