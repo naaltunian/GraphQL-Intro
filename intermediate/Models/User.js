@@ -13,10 +13,12 @@ const UserSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    favoriteBooks: {
-        type: [mongoose.Schema.Types.ObjectId],
-        ref: 'Book'
-    }
+    favoriteBooks: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Book"
+        }
+    ]
 });
 
 module.exports = mongoose.model("User", UserSchema);

@@ -1,13 +1,17 @@
 exports.resolvers = {
 
     Query: {
-        getBook: async (_, { _id }, { Book }) => {
-            const book = await Book.findOne({ _id });
+        getAllBooks: (_, args, { Book }) => {
+            const books = Book.find();
+            return books;
+        },
+        getBook: (_, { _id }, { Book }) => {
+            const book = Book.findOne({ _id });
             return book;
         },
-        getAllBooks: async (_, args, { Book }) => {
-            const allBooks = Book.find();
-            return allBooks;
+        getUser: async (_, { userId }, { User }) => {
+            const user = await User.findOne({ _id: userId }).populate("favoriteBooks");
+            return user;
         }
     },
 
@@ -22,10 +26,28 @@ exports.resolvers = {
             }).save();
             return newBook;
         },
-
+        addFavoriteBook: async (_, { userId, bookId }, { User }) => {
+            const user = await User.findOne({ _id: userId });
+            await user.favoriteBooks.push(bookId);
+            return await user.save();
+        },
+        removeBookFromFavorites: async (_, { userId, bookId }, { User }) => {
+            const user = await User.findOne({ _id: userId });
+            user.favoriteBooks.pull(bookId);
+            user.save();
+            return user;
+        },
         deleteBook: async (_, { _id }, { Book }) => {
-            const deletedBook = await Book.deleteOne({ _id });
+            const deletedBook = await Book.findOneAndDelete({ _id });
             return deletedBook;
+        },
+        createUser: async (_, { userInput: { name, age, email }}, { User }) => {
+            const user = new User({
+                name,
+                age,
+                email
+            }).save();
+            return user;
         }
     }
 }
